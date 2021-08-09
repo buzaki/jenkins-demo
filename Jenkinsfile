@@ -6,13 +6,13 @@ pipeline {
   }
   environment {
     PROJECT = "jenkins-demo"
-    REGISTRY_USER = "vfarcic"
+    REGISTRY_USER = "buzaki"
   }
   stages {
     stage("Build") {
       steps {
         container("kaniko") {
-          sh "/kaniko/executor --context `pwd` --destination vfarcic/jenkins-demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
+          sh "/kaniko/executor --context `pwd` --destination buzaki/jenkins-demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
         }
       }
     }
@@ -31,7 +31,7 @@ pipeline {
             kustomize build . | kubectl apply --filename -
             kubectl --namespace $PROJECT-${env.BRANCH_NAME.toLowerCase()} rollout status deployment jenkins-demo
           """
-          sh "curl http://${env.BRANCH_NAME.toLowerCase()}$PROJECT.acme.com"
+          sh "curl http://${env.BRANCH_NAME.toLowerCase()}$PROJECT.163.172.132.158.nip.io"
           sh "kubectl delete namespace $PROJECT-${env.BRANCH_NAME.toLowerCase()}"
         }
       }
