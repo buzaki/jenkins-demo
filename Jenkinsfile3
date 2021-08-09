@@ -12,7 +12,7 @@ pipeline {
     stage("Build") {
       steps {
         container("kaniko") {
-          sh "/kaniko/executor --context `pwd` --destination rg.fr-par.scw.cloud/id3m/jenkins-demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
+          sh "/kaniko/executor --context `pwd` --destination rg.fr-par.scw.cloud/id3m/jenkins-demo:latest --destination rg.fr-par.scw.cloud/${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
         }
       }
     }
@@ -22,7 +22,7 @@ pipeline {
         container("kustomize") {
           sh """
             cd kustomize/overlays/production
-            kustomize edit set image ${REGISTRY_USER}/${PROJECT}=${REGISTRY_USER}/${PROJECT}:$BRANCH_NAME-${BUILD_NUMBER}
+            kustomize edit set image rg.fr-par.scw.cloud/${REGISTRY_USER}/${PROJECT}=rg.fr-par.scw.cloud/${REGISTRY_USER}/${PROJECT}:$BRANCH_NAME-${BUILD_NUMBER}
             kustomize build . | kubectl apply --filename -
           """
         }
