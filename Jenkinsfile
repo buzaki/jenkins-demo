@@ -12,7 +12,7 @@ pipeline {
     stage("Build") {
       steps {
         container("kaniko") {
-          sh "/kaniko/executor --context `pwd` --destination buzaki/jenkins-demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
+          sh "/kaniko/executor --context `pwd` --destination buzaki/demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
         }
       }
     }
