@@ -5,14 +5,14 @@ pipeline {
     }
   }
   environment {
-    PROJECT = "demo"
-    REGISTRY_USER = "buzaki"
+    PROJECT = "jenkins-demo"
+    REGISTRY_USER = "id3m"
   }
   stages {
     stage("Build") {
       steps {
         container("kaniko") {
-          sh "/kaniko/executor --context `pwd` --destination buzaki/demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
+          sh "/kaniko/executor --context `pwd` --destination rg.fr-par.scw.cloud/id3m/jenkins-demo:latest --destination ${REGISTRY_USER}/${PROJECT}:${env.BRANCH_NAME.toLowerCase()}-${BUILD_NUMBER}"
         }
       }
     }
